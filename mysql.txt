@@ -1,0 +1,187 @@
+数据库基本操作:
+	创建数据库:
+		create DATABASE <xxx>;
+	删除数据库:
+		drop database <xxx>;
+	选择数据库:
+		use <xxx>;
+数值基本类型:
+	数值类型:
+		TINYINT		1
+		SMALLINT	2
+		MEDIUMINT	3
+		INT INTEGER	4
+		BIGINT		8
+		FLOAT		4
+		DOUBLE		8
+	日期与时间类型:
+		DATE 		3字节   YYYY-MM-DD 日期值
+		TIME 		3	HH:MM:SS   时间值或持续时间
+		YEAR 		1	YYYY
+		DATETIME 	8 	YYYY-MM-DD HH:MM:SS
+		TIMESTAMP 	4 	YYYYMMDDHHMMSS
+		
+	字符串类型:
+		CHAR		定义长字符串
+		VARCHAR		变更长字符串
+		TINYBLOB 	不超过255个字符的二进制字符串
+		TINYTEXT 	短文本字符串
+		TEXT		长文本数据
+		tinyint		1字节
+		smalint 	2字节
+		medinumint 	3字节
+		int		4字节
+		bigint		8字节
+	浮点型:
+		float(m,d)	单精度浮点数	4字节
+		double(m,d)	双精度浮点数	8字节
+	定位数:
+		decimal(m,d)	参数是m<65是总个数,d<30且d<m是小数位
+	字符串:
+		char		固定长度
+		varchar		可变长度
+		tinyint		可变长度
+		text		可变长度
+		medium		可变长度
+		longtext	可变长度
+	
+		char(n) 若存入字符串小于n,空格补齐,查询是将空格去掉,所以后面不能有空格
+
+	MySQL关键字
+		NULL			可包含null
+		not null		不允许
+		default			默认值
+		primary key		主键
+		auto_increment		自动递增
+		unsigned 		无符号
+		character set name 	制定一个字符集
+
+	创建数据表:
+		表名 + 表字段 + 定义每个表字段
+		create table table_name (colum_name column_type);
+	删除数据表:
+		drop table table_name;
+	插入数据:
+		insert into table_name (field1,field2,...) values (value1,...)
+	
+查询数据:
+	SELECT column_name,column_name
+	FROM table_name
+	[WHERE Clause]
+	[LIMIT N][ OFFSET M]
+	
+	select * : 返回所有记录
+	limit N : 返回 N 条记录
+	offset M : 跳过 M 条记录, 默认 M=0, 单独使用似乎不起作用
+	limit N,M : 相当于 offset N limit M , 从第 N 条记录开始, 返回 M 条记录
+		limit 基本用法:
+			SELECT * FROM table LIMIT 5,10; // 检索记录行 6-15
+			SELECT * FROM table LIMIT 95,-1; // 检索记录行 96-last.
+			SELECT * FROM table LIMIT 5; //检索前 5 个记录行
+	
+		分页查询:
+			基本用法: SELECT ... FROM ... WHERE ... ORDER BY ... LIMIT ...
+	基本示例
+		SELECT * FROM websites;                      /* 查询表所有数据 */
+
+		SELECT NAME FROM websites;                   /* 查询表字段数据 */
+	
+		SELECT * FROM websites where name = "广西";   /* 查询表字段下条件数据 */
+
+		SELECT * from websites where name like "_o%"; /* 模糊查询表下数据 */
+
+		SELECT * FROM websites where id BETWEEN "1" AND "5";    /* 查询表下字段范围数据 */
+
+		SELECT * FROM websites WHERE name in ("广西","百度");    /* 查询表字段下固定条件数据 */
+
+		SELECT DISTINCT country FROM Websites;                  /* 查询去重值 */
+
+		SELECT * FROM Websites WHERE country = "CN" AND alexa > 50;  /*查询表下范围条件数据*/
+
+		SELECT * FROM Websites WHERE country = "USA" OR country="sh"; /* 查询表下条件不同值 */
+
+		SELECT * FROM Websites ORDER BY alexa;                      /* 查询表下值排序结果 */
+
+		SELECT * FROM Websites ORDER BY alexa DESC;                 /* 查询表下排序结果降序 */
+
+		SELECT * FROM Websites LIMIT 2;      /* 查询表下范围数据 */
+
+		SELECT name as zzz from websites;    /*别名查询表下数据*/
+		
+
+关联查询:
+	左关联: left join ... on ..
+	右关联: rght join ... on ..
+			
+	select 字段 from 表1 left join 表2 on  条件 (一般为表1与表2的关联条件)
+	例:
+
+	select * from user left join orders on user.id = orders.user_is
+
+
+where子句:
+	select field1,... from table_name1,... [where condetion1 [and[or]] condition2)]
+	where: 在where子句中指定任何条件,类似于if条件
+	and: 
+	or:
+	briary: 区分大小写
+
+	select * from tb1 where anthor="数据";
+	select * from tb1 where briary author=".com"
+
+update查询:
+	update tb1 set title="学习" where id=3;
+	select * from tb1 where id=3;
+
+	更新数据:
+	update 表名称 set 列名称=新值 where 更新条件
+	实例:
+	update tb1 set title = replace(title,"c++","python") where id = 3;
+
+delete语句:
+	delete from name [where clause];
+	如果没有指定where子句,表中的所有的记录都被删除
+	可以在单表中一次性删除记录
+
+	删除数据:
+	delete from 表名称 where 删除条件;
+	实例:
+	delete from students where id=3;
+	delete from students where age < 20;
+	delete from students;
+
+	delete drop truncate 区别
+	delete 和 truncate 仅仅是删除数据,drop连表结构和表数据一起删除
+	delete 是 DML 语句, 操作完后可以回滚,truncate 和 drop 是 DDL 语句,不能回滚
+	drop > truncate > delete 速度
+
+like语句:
+	select field1,... from table_name where field1 like condition [and] field2 = 'somevallue';
+	where 子句中指定任何条件
+	like 子句替代 = 
+	like 通常和 % 一起使用类似元字符的搜索
+	and 或 or 指定条件
+	delete 和 update 使用 where...like 子句指定条件
+	
+	select * from tb1 where anthor like '%COM';
+
+	like 匹配/模糊匹配, 会与 % 和 _ 结合使用
+	%a	以a结尾的数据
+	a%	以a开头的数据
+	%a%	含有a 的数据
+	_a_	三位数,中间是a
+	_a	两位数,结尾是a
+	a_	两位数,开头是a
+
+	实例:
+	select * from position where name like 'java%';
+	
+
+
+
+union 操作符
+	用于将两个以上的select语句的结果组合到一个结果集合中.多个select语句回删除重复的数据.
+
+
+
+

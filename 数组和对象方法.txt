@@ -1,0 +1,39 @@
+﻿数组:
+	splice 对原数组进行操作
+	slice  返回一个新的数组
+	forEach 循环遍历数组,没有return
+	map 映射,有return
+	filter 过滤,有return
+	reduce 映射,有return
+	some 检测,返回布尔值
+	
+	Array.from('foo')
+	Array ["f", "o", "o"]
+
+	Array.from([1, 2, 3], x => x + x)
+	Array [2, 4, 6]
+	
+	对象:
+	Object.assign({},this.searchData);	合并对象,返回一个新对象
+	Object.keys({ 100: "a", 2: "b", 7: "c"}); 类似于for..in;console: ["2", "7", "100"]
+	Object.is()		比较两个值是否相同,返回布尔值
+字符串:
+
+正则表达式:
+	^: 正则开始
+	[0-9]+: 匹配多个数字
+	[0-9]: 匹配单个数字
+	+: 匹配一个或多个
+	?: 一个字符
+	*: 多个字符
+	i: 不区分大小匹配
+	g: 全文搜索,不是第一个
+	
+	
+	test(): 存在?
+	exec(): 检索字符串的指定值
+	toString(): 返回正则表达式的字符串
+	
+	var re = new RegExp("\\w+")
+	var re = /\w+/
+	
