@@ -58,5 +58,7 @@ function Patient (name,node) {
 	this.code = code;
 }
 
+// 定义dequeue方法,使其优先删除最高优先级的元素.
+
 
 
