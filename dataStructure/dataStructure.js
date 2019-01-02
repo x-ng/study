@@ -254,5 +254,151 @@
 				currNode = curNode.next;
 			})
 		}
+	
+	5.1 双向链表
+		funciton Node (element) {
+			this.element = element;
+			this.next = null;
+			this.previous = null;
+		}
 		
+		funciton insert (newElement, item) {
+			var newNode = new Node(newElement);
+			var current = this.find(item);
+			newNode.next = current.next;
+			newNode.previous = current;
+			current.next = newNode;
+		}
 		
+		// remove()方法
+		funciton remove(item) {
+			var currNode = this.find(item);
+			if (!(currNode.next == null)) {
+				currNode.previous.next = currNode.next;
+				currNode.next.previous = currNode.previous;
+				currNode.next = null;
+				currNode.previous = null;
+			}
+		}
+		
+		// 找到最后一个值
+		funciton findLast () {
+			var currNode = this.head;
+			while (!(currNode.next == null)) {
+				currNode = currNode.next;
+			}
+			return currNode;
+		}
+		
+		// 反序
+		funciton disReverse () {
+			var currNode = this.head;
+			currNode = this.findLast();
+			while (!(currNode.previous == null) {
+				console.log(currNode.element);
+				currNode = currNode.previous;
+			})
+		}
+	
+	5.2 循环列表
+		// 创建循环链表,只需要修改LList类的构造函数
+		funciton LList () {
+			this.head = new Node("head");
+			this.head.next = this.head;
+			this.find = find;
+			this.insert = insert;
+			this.display = display;
+			this.findPrevious = findPrevious;
+			this.remove = remove;
+		}
+		// 循环列表的display()方法
+		funciton display () {
+			var currNode = this.head;
+			while (!(currNode.next == null) && !(currNode.next.element=="head")) {
+				console.log(currNode.next.element);
+				currNode = currNode.next;
+			}
+		}
+6.字典
+	// 定义一个Dictionary类
+	funciton Dictionary () {
+		this.dataStore = new Array();
+	}
+	
+	// 定义add方法
+	funciton add (key,value) {
+		this.dataStore[key] = value;
+	}
+	
+	// 定义find方法,以键为参数,返回关联值
+	funciton find (key) {
+		return this.dataStore[key];
+	}
+
+	// 删除
+	funciton remove(key) {
+		delete this.dataStore[key];
+	}
+
+	// 展示所有
+	funciton showAll () {
+		for (var key in Object.keys(this.dataStore)) {
+			console.log(key + "->" + this.dataStore[key]);
+		}
+	}
+	
+	var pbook = new Dictionary();
+	pbook.add("mike1","123");
+	pbook.add("mike2","345");
+	pbook.add("mike3","456");
+	pbook.add("mike4","678");
+	console.log("mike2 extension:" + pbook.find("mike2"));
+	pbook.remove("mike2");
+	pbook.showAll();
+	
+	// 辅助方法 
+	funciton count () {
+		var n = 0;
+		for (var key in Object.keys(this.dataStore)) {
+			++n;
+		}
+		return n;
+	}
+	funciton clear () {
+		for each (var key in Object.keys(this.dataStore)) {
+			delete this.dataStore[key];
+		}
+	}
+	
+	// 重新定义showAll
+	funciton showAll () {
+		for (var key in object.keys(this.dataStore).sort()){
+			console.log(key + "->" this.dataStore[key]);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
