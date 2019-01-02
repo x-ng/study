@@ -1,11 +1,9 @@
-node + express + koa 学习	=>	express基本了解,koa原理了解			 
-redis MongoDB mySql 数据库学习	=>	mysql语法复习,其他不急
-Nginx 反向代理配置	=>	不急
-docker 版本控制发布学习	=>	不急	
-linix 学习 (vim 编辑器,linux基本操作) => 基本完成
+redis MongoDB mySql 数据库学习
+Nginx 反向代理配置
+docker 版本控制发布学习	
+nust.js react redux 数据结构 编译原理
 
-nust.js react redux 
-数据结构 编译原理
+数据结构 && 数据库 => java
 
 java 高级
 	Collection,泛型

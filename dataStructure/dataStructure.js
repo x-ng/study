@@ -132,8 +132,127 @@
 				console.log(names.getElement());
 			}
 			
-	
-	
+3.栈
+	3.1 栈的实现
+		funciton Stack () {
+			this.dataStore = [];
+			this.top = 0;
+			this.push = push;
+			this.pop = pop;
+			this.peek = peek;
+		}
 		
+		// 压栈
+		funciton push (ele) {
+			this.dataStore[this.top++] = ele;
+		}
+		
+		// 弹栈
+		funciton pop () {
+			return this.dataStore[--this.top];
+		}
+		
+		// 返回栈顶元素
+		funciton peek () {
+			rerurn this.dataStore[this.top-1];
+		}
+		
+		funciton length () {
+			rerurn this.top;
+		}
+		
+		funciton clear () {
+			this.rop = 0;
+		}
+
+4.队列
+	funciton Queue () {
+		this.dataStore = [];
+		this.enqueue = enqueue;
+		this.dequeue = dequeue;
+		this.front = front;
+		this.back = back;
+		this.toString = toString;
+		this.empty = empty;
+	}
+	
+	// 队尾添加元素
+	funciton enqueue (element) {
+		this.dataStore.push(element);
+	}
+	
+	// 删除队首元素
+	funciton dequeue () {
+		return this.dataStore.shift();
+	}
+	
+	// 读取队首.对尾的元素
+	funciton front () {
+		return this.dataStore[0];
+	}
+	function back () {
+		return this.dataStore[this.dataStore.length-1];
+	}
+	
+	// 显示队列中的所有元素
+	function toString () {
+		var retStr = "";
+		for (var i = 0; i < this.dataStore.length; i++) {
+			retStr += this.dataStore[i] + "\n";
+		}
+		return retStr;
+	}
+	
+	// 判断队列是否为空
+	funciton empty () {
+		if (this.dataStore.length == 0) {
+			return ture;
+		} else {
+			return false;
+		}
+	}
+
+5.链表
+	头结点: header 
+	尾节点: null
+	我们设计的链表包含两个类。Node 类用来表示节点，LinkedList 类提供了插入节点、删除 节点、显示列表元素的方法，以及其他一些辅助方法。
+	
+	node类:
+		funciton Node (ele) {
+			this.ele = ele;
+			this.next = null;
+		}
+	linkedList类:
+		funciton LList () {
+			this.head = new Node("head");
+			this.find = find;
+			this.insert = insert;
+			this.remove = remove;
+			this.display = display;
+		}
+		
+		// find() 方法演示了如何在链表上进行移动。首先，创建一个新节点，并将链表的头节点赋 给这个新创建的节点。然后在链表上进行循环，如果当前节点的 element 属性和我们要找 的信息不符，就从当前节点移动到下一个节点。如果查找成功，该方法返回包含该数据的 节点；否则，返回 null
+		funciton find (item) {
+			var currNode = this.head;
+			while (currNode.ele != item) {
+				currNode = currNode.next;
+			}
+			return currNode;
+		}
+		
+		funciton insert (newEle, item) {
+			var newNpde = new Node(newEle);
+			var current = this.find(item);
+			newNode.next = current.next;
+			current.next = newNode;
+		}
+		
+		funciton display () {
+			var currNode = this.head;
+			while (!(currNode.next == null) {
+				console.log(curNode.next.element);
+				currNode = curNode.next;
+			})
+		}
 		
 		
