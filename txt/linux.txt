@@ -152,3 +152,8 @@
 		w 保存
 
 
+
+
+	:set nu
+	:set nonu
+
