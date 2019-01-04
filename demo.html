@@ -122,7 +122,21 @@
         }
         this.$store.commit('popup',tipsObjs);
     }
-                                    
+                     
+
+
+                console.log(this.selectColorcloth);
+                this.selectColorcloth.forEach((val, index) => {
+                    if (val >= PNumber && flag == 1) {
+                        let tipsObjs = {
+                            title: "已选择原料与染单客户颜色不一致，确认选择此胚布?",
+                            flag: true,
+                            type: 3,
+                            btnGroup:['ok']
+                        }
+                        this.$store.commit('popup',tipsObjs);
+                    }
+                });					 
 
     </script>
 </body>
