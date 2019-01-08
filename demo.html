@@ -113,30 +113,48 @@
 
 
 
-    if (selectColorcloth == true && flag == true) {
-        let tipsObjs = {
-            title: "已选择原料与染单客户颜色不一致，确认选择此胚布?"
-            flag: true,
-            type: 3,
-            btnGroup:['ok']
-        }
-        this.$store.commit('popup',tipsObjs);
-    }
+//     if (selectColorcloth == true && flag == true) {
+//         let tipsObjs = {
+//             title: "已选择原料与染单客户颜色不一致，确认选择此胚布?"
+//             flag: true,
+//             type: 3,
+//             btnGroup:['ok']
+//         }
+//         this.$store.commit('popup',tipsObjs);
+//     }
                      
 
+//   用这个
+//                 console.log(this.selectColorcloth);
+//                 this.selectColorcloth.forEach((val, index) => {
+//                     if (val >= PNumber && flag == 1) {
+//                         let tipsObjs = {
+//                             title: "已选择原料与染单客户颜色不一致，确认选择此胚布?",
+//                             flag: true,
+//                             type: 3,
+//                             btnGroup:['ok']
+//                         }
+//                         this.$store.commit('popup',tipsObjs);
+//                     }
+//                 });			
 
-                console.log(this.selectColorcloth);
-                this.selectColorcloth.forEach((val, index) => {
-                    if (val >= PNumber && flag == 1) {
-                        let tipsObjs = {
-                            title: "已选择原料与染单客户颜色不一致，确认选择此胚布?",
-                            flag: true,
-                            type: 3,
-                            btnGroup:['ok']
-                        }
-                        this.$store.commit('popup',tipsObjs);
-                    }
-                });					 
+
+
+
+
+// <div>
+//                                 <!-- 上面的一直显示 -->
+//                                  <div  class="bounced_content-item" v-for="(item,index) in ColorclothData" v-if="index < number">
+//                                 <!-- 下面的点击之后显示 -->
+//                                 <div v-if="flag">
+//                                     <!-- 所有的信息复制 -->
+//                                     <!-- 对第一个选择栏进行判断 -->
+//                                 </div>
+
+//                             </div>			
+
+        var str = 'x123y123d123';
+        console.log(str.slice(4));
 
     </script>
 </body>
