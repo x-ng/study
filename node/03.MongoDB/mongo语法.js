@@ -109,9 +109,100 @@
 	
 		// 复合索引
 			db.user.ensureIndex({"username":1,"age":-1})
-		
-	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+cls 
+show dbs
+use studnet  db.studnet.insert({"name":"xiaoming"})
+show collections
+db.dropDatabase() // 删除所在的库
+db.COLLECTION_NAMe.drop() // 删除所在的表
+db.userinfo.find()
+db.userinfo.distinct() // 查询去重数据
 
+// 修改数据
+	db.collection.update(
+		<query>,
+		<update>,
+		{
+			upsert: <boolean>,
+			mulit: <boolean>,
+			writeConcern: <document>
+		}
+	)	
+		query : update的查询条件，类似sql update查询内where后面的。
+		update : update的对象和一些更新的操作符（如,,inc…）等，也可以理解为sql update查询内set后面的
+		upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。
+		multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。
+		writeConcern :可选，抛出异常的级别。
+	
+	db.student.update({"name":"小明"},{$set:{"age":16}})
+	
+		以上语句只会修改第一条发现的文档，如果你要修改多条相同的文档，则需要设置 multi 参数为 true。 
+		multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。
+		
+	完整替换, 不出现$set关键字:
+		db.student.update({"name":"小明"},{"name":"大明","age":16})
+		db.users.update({name:'lisi'},{$inc:{age:50},$set:{name:'hoho'}},false,true)
+		db.users.update({name:'lisi'},{$inc:{age:50},$set:{name:'hoho'}},false,true)
+		
+	只更新第一条记录:
+		db.col.update({"count":{$gt:1}},{$set:{"test2":"ok"}});
+	
+	全部更新:
+		db.col.update({"count":{$gt:3}},{$set:{"test2":"ok"}},false,true);
+	
+	只添加第一条:
+		db.col.update({"count":{$gt:4}},{$set:{"test":"ok"}},true,false)
+		
+	全部添加进去:
+		db.col.update({"count":{$gt:15}},{$inc:{"count":1}},false,true)
+		
+	只更新第一条:
+		db.col.update({"count":{$gt:10}},{$inc:{"count":1}},false,false)
+		
+	3.2版本后:
+		db.collection.updateOne()
+		db.collection.updateMany()
+		
+		更新单个文档:
+			db.collection.updateOne({"name":"abc"},{$set:{"age":"28"}})
+		更新多个文档:
+			db.collection.updateMany({"age":{$gt:"10"}},{$set:{"status":"xyd"}})
+			
+// 删除数据
+	db.collection.remove(<quert>,<justOne>)
+	db.collection.remove(<quert>,
+	{
+		justOne:<boolean>,
+		writeConcern: <document>
+	})
 
 
 
