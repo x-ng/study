@@ -4,17 +4,17 @@
 // 2.简单实用
 // 	npm i express -save
 	
-	// 引入
-	var express = require('express');
-	var app = express();
+	// // 引入
+	// var express = require('express');
+	// var app = express();
 	
-	// 配置路由
-	app.get('/', (req,res) => {
-		res.send('hello world')
-	});
+	// // 配置路由
+	// app.get('/', (req,res) => {
+	// 	res.send('hello world')
+	// });
 
-	// 监听端口
-	app.listen(3000, '127.0.0.1');
+	// // 监听端口
+	// app.listen(3000, '127.0.0.1');
 
 // 3. 完整demo
 	var express = require('express');
