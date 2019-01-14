@@ -26,3 +26,11 @@
         resave: false,
         saveUninitialized: true
     }))
+
+// express-session 的常用方法
+    req.session.destory((err) => {
+        // 销毁 session
+    })
+    req.session.username = '张三'  // 设置 session
+    req.session.username    // 获取 session
+    req.session.cookie.maxAge = 0; // 重新设置cookie的过期时间
