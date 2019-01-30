@@ -36,10 +36,22 @@ git命令行:
 		git branch -d ()  (删除)
 		
 		
-		git status
+流程:
+git status
 	如果修改过文件没提交
 		git checkout - <file>  放弃工作目录中的修改
 		git add 来更新提交
+		
+git add .	
+	（使用“git reset HEAD <file> ...”取消暂停）
+
+git commit -m ""
+
+git push
+
+
+111
+
 跨域:
 	nginx 配置
 
