@@ -2,12 +2,19 @@
 
 ### 流程:
 
-​	git status
-​	如果修改过文件没提交
-​		git checkout - <file>  放弃工作目录中的修改
-​		git add 来更新提交		
-​	git add .	
-​	(使用“git reset HEAD <file> ...”取消暂停)
+​	git status // 修改过文件但是没操作过
+
+​		git add <file> 提交
+
+​		git checkout -- <file> 丢弃工作目录中的更改 (git checkout . 所有的)
+
+​	git add .	// 提交
+
+​	git status // 提交过撤回
+
+​		git reset HEAD <file>  取消暂停,退回到类似提交前的状态
+
+​		git checkout -- <file>  丢弃目标file 的修改
 
 ​	git  commit -m "message" // 提交
 
