@@ -40,7 +40,7 @@
 
 ​		原理同上:
 
-​		git push origin 分支 –force
+​		git push origin 分支 --force
 
 
 
