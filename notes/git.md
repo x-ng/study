@@ -80,20 +80,6 @@
 
 远程仓库相关命令:
 
-​	git remote -v	// 查看远程仓库
-
-​	git remote add [name] [url]	// 添加远程仓库
-
-​	git remote rm [name] 	// 删除远程仓库
-
-​	git remote set-url --push [name] [newUrl]	// 修改远程仓库
-
-​	git pull [remoteName] [localBranchName]	// 拉取远程仓库
-
-​	git push [remoteName] [localBranchName]	// 推送远程仓库 
-
-
-
 ​	git push origin test:origin // 提交本地test分支作为远程的master分支
 
 ​	git push origin :test	// 左边的为空,就删除远程的test分支
