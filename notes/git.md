@@ -22,7 +22,7 @@
 
 ​		git commit --amend // 修改注释
 
-​		git reset --soft HEAD^
+​		git reset --soft HEAD^	// 代码回滚
 
 ​		`git reset –soft xx版本号xxxx`
 
