@@ -36,13 +36,11 @@
 
 ​	git  push origin <branch>
 
-​	git status
-
-​		git reset --soft HEAD~1
+​	git reset --soft HEAD~1
 
 ​		原理同上:
 
-​	git push origin 分支 –force
+​		git push origin 分支 –force
 
 
 
