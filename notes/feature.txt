@@ -44,13 +44,35 @@ git status
 		
 git add .	
 	（使用“git reset HEAD <file> ...”取消暂停）
+	
+	git reset HEAD <file>
+	git checkout - <file>
+	还原
+	
 
 git commit -m ""
 
 git push
 
+其他操作:
+git pull origin <2.6> 拉取远程分支2.6的代码
 
-111
+git rm <file>
+
+创建分支:
+git checkout <branch_name> 创建分支
+
+git push origin local-branch:remote-branch // 推送本地local-banrch到远程origin的remote-branch分支
+
+git checkout -b <branch_name> // 创建+切换
+
+合并分支:
+gir merge <branch_name> // 合并分支到目前分支
+
+删除分支:
+git branch -d <branch_name>
+
+
 
 跨域:
 	nginx 配置
