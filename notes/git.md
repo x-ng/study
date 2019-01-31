@@ -83,3 +83,13 @@
 ​	git push origin test:origin // 提交本地test分支作为远程的master分支
 
 ​	git push origin :test	// 左边的为空,就删除远程的test分支
+
+### git https 切换 ssh
+
+查看方式
+
+​	git remote -v
+
+切换
+
+​	git remote set-url origin <targt_address>
