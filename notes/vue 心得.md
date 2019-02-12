@@ -250,3 +250,109 @@ var App = {
 
 - 路由钩子 -> 权限控制的函数执行时期
   - router.beforeEach(funciton(to,from,next){})
+
+## 6 vue 各个组件
+
+### 6.1 select
+
+```
+<select 
+  v-model="selected"
+  @change="changeUnitNew(selected)"
+>
+    <option
+        v-for="(item,index) in selectList"
+        :value="item.id"
+    >{{ item.value }}</option>
+</select>
+<div>
+  {{selected}}
+</div>
+
+
+data() {
+  return {
+    selectList: [
+      {
+        id: 100,
+        value: "磅"
+      },
+      {
+        id: 200,
+        value: "码"
+      },
+      {
+        id: 300,
+        value: "米"
+      }
+    ],
+  };
+}
+
+select v-model 绑定的是 option 中的 :value 的值, option 的标签中可以绑定属性
+```
+
+### 6.2 form
+
+```
+<body>
+  <form>
+    <input
+    type="text"
+    value=""
+    v-model="name"
+    placeholder="请输入用户名">
+
+    <input
+    type="text"
+    value=""
+    v-model="age"
+    placeholder="请输入年龄">
+
+    <input
+    type="file"
+    @change="getFile($event)">
+
+    <button
+    @click="submitForm($event)">提交</button>
+  </form>
+
+  <script>
+    window.onload = function () {
+      Vue.prototype.$http = axios;
+      new Vue({
+        el: 'form',
+        data: {
+          name: '',
+          age: '',
+          file: ''
+        },
+        methods: {
+          getFile(event) {
+            this.file = event.target.files[0];
+            console.log(this.file);
+          },
+          submitForm(event) {
+            event.preventDefault();
+            let formData = new FormData();
+            formData.append('name', this.name);
+            formData.append('age', this.age);
+            formData.append('file', this.file);
+            let config = {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+            this.$http.post('/upload', formData, config).then(function (res) {
+              if (res.status === 2000) {
+                /*这里做处理*/
+              }
+            })
+          }
+        }
+      })
+    }
+  </script>
+</body>
+```
+
