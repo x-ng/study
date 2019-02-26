@@ -121,6 +121,3 @@ TS部分:
 	
 	http://localhost:8124/sys/dye-stock-out/show/3279
 
-	node权威指南
-	koa与node.js实战
-	拔剑神曲 GC-βίος 核爆神曲 AZ-aLIEz MKAlieZ 变身神曲 巨人-at’aek ON taitn 爆衣神曲 kill la kill-Before my body is dry 断剑神曲 Perfect Time 反击神曲 AZ-Keep on keeping on 窒息神曲 AZ-BRE@TH//LESS

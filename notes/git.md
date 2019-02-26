@@ -60,7 +60,15 @@
 
 创建并切换到:
 
-​	git checkout -b <branch_name> // 创建+切换
+​	git checkout -b <branch_name>  <origin/远程分支名>// 创建+切换
+
+提交本地分支到远程分支:
+
+​	git push origin 本地分支名
+
+新建本地分支与远程分支关联:
+
+​	git branch -set-upstream 本地新建分支名 origin/远程分支名
 
 合并分支:
 
