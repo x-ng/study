@@ -50,29 +50,33 @@
 
 ​	git pull origin <2.6> 拉取远程分支2.6的代码
 
-​	git rm <file> 删除文件
-
 创建分支:
 
 ​	git checkout <branch_name> 创建分支
 
 ​	git push origin local-branch:remote-branch // 推送本地local-banrch到远程origin的remote-branch分支
 
+新建本地分支与远程分支关联:
+
+​	git branch -set-upstream 本地新建分支名 origin/远程分支名
+
+
+
 创建并切换到:
 
-​	git checkout -b <branch_name>  <origin/远程分支名>// 创建+切换
+​	git checkout -b <branch_name>  <origin/远程分支名>	// 拉取远程分支并同时创建对应的本地分支
+
+直接拉取远程分支同步到本地:
+
+​	git checkout --track origin/dye_erp1.7
+
+
 
 提交本地分支到远程分支:
 
 ​	git push origin 本地分支名
 
-新建本地分支与远程分支关联:
 
-​	git branch -set-upstream 本地新建分支名 origin/远程分支名
-
-直接拉取远程分支同步到本地:
-
-​	git checkout --track origin/dye_erp1.7
 
 合并分支:
 
