@@ -70,6 +70,10 @@
 
 ​	git branch -set-upstream 本地新建分支名 origin/远程分支名
 
+直接拉取远程分支同步到本地:
+
+​	git checkout --track origin/dye_erp1.7
+
 合并分支:
 
 ​	gir merge <branch_name> // 合并分支到目前分支
