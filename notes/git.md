@@ -78,6 +78,16 @@
 
 
 
+暂存起来:
+
+​	git stash 暂存
+
+​	git stash list 暂存列表
+
+​	git stash pop 取出暂存
+
+
+
 合并分支:
 
 ​	gir merge <branch_name> // 合并分支到目前分支
