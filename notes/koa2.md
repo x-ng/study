@@ -290,10 +290,10 @@ async function envIncrease() {
     // 等待回调任务结果 2 返回
     let result2 = await increase(result1)
     console.log(`result2 = ${result2}`)
-    
+
     // 等待回调任务结果 3 返回
     let result3 = await increase(result2)
-    
+
     return result3
 }
 
@@ -783,7 +783,7 @@ callback () {
 
 使用中间件越多, 回调嵌套越深, 代码的可读性和可扩展性就很差, 所以转化为 Promise + async/await 就会很简单
 
-### 必要条件
+### 必要的条件
 
 - 通过上下文赋值可替代 res.end()
 - 洋葱模型的中间件机制
@@ -1009,9 +1009,9 @@ Promise.resolve(middleware(context, async() => {
 - http 响应
   - 响应操作
 
-         路由过滤  权限拦截  数据安全                   日志统计  统一登录态
+                    路由过滤  权限拦截  数据安全                   日志统计  统一登录态
 
-http.req --> --> --> --> --> --> --> --> --> service --> --> --> --> --> --> http.res
+        http.req --> --> --> --> --> --> --> --> --> service --> --> --> --> --> --> http.res
 
 ### Koa.js 的 HTTP 旅程
 
@@ -1019,14 +1019,89 @@ http.req --> --> --> --> --> --> --> --> --> service --> --> --> --> --> --> htt
 - 中间件
 - 响应
 
-                    headers             中间件执行两次           body
-                    cookie                 先进后出              type
-                    query                                      status
-                    origin                                      length
-                    ...                                          ...
+                            headers             中间件执行两次           body
+                            cookie                 先进后出              type
+                            query                                      status
+                            origin                                      length
+                            ...                                          ...
 
-node.http.req -->  ctx.request --> --> middleware --> --> --> ctx.response  --> --> -->ctx.response
+        node.http.req -->  ctx.request --> --> middleware --> --> --> ctx.response  --> --> -->ctx.response
 
 # Koa.js 中间件
 
 ## 中间件分类
+
+市面上的大部分 Web 框架, 都提供了很多 Web 相关的能力支撑, 例如:
+
+- HTTP 服务
+- 路由管理
+- 模块渲染
+- 日志
+- 插件/中间件等AOP能力
+- 其他能力
+
+Koa.js 作为一个 web 框架, 总结提供两种能力
+
+- HTTP 服务
+- 中间件机制 (AOP切面)
+
+综上所述, 用 Koa 想实现大部分 web 功能的话, 就需要整合相关功能的中间件
+
+### 狭义中间件描述
+
+狭义中间件的特点:
+
+- 中间件内操作请求 request
+- 中间件内操作响应 response
+- 中间件内操作上下文 context
+- 大多数直接被 app.use() 加载
+
+举个例子, 例如中间件 koa-static 主要是靠拦截请求和响应, 加载静态资源, 中间件 koa-bodyparser 主要是拦截请求后解析出 http 请求体中的post数据, 再挂载到ctx上
+
+### 广义中间件描述
+
+广义中间件的特点:
+
+- 不直接提供中间件
+- 通过间接方式提供了中间件或者子中间件
+- 间接被 app.use() 加载
+- 其他方式接入 koa 切面
+
+举个例子, 中间 koa-router 是先注册后形成多个 子中间件, 后面再封装成一个 父中间件 提供给 app.use() 加载, 让所有子中间件加载到 koa.js的请求 洋葱模型中
+
+## 狭义中间件
+
+常见要素:
+
+- 一切皆中间件
+- 中间件内操作请求 request
+  - 请求拦截
+- 中间件内操作响应 response
+  - 响应拦截
+- 中间件内操作上下文 context
+  - 直接上下文代理, 初始化实例时候挂载代理在 app.context 上
+  - 请求过程上下文处理, 请求时候挂载在 ctx 上
+- 大部分直接被 app.use() 加载
+  - 注意: 初始化实例挂载代理 context 不被 app.use()
+
+### 请求拦截
+
+```js
+const Koa = require('koa')
+let app = new Koa()
+
+const middleware = async function(ctx, next) {
+    // 中间件 拦截请求
+    // 把所有请求不是 /page/ 开头的路径全部抛出 500
+    const reqPath = ctx.request.path
+    if (reqPath.indexOf('/page') !== 0) {
+        ctx.throw(500)
+    }
+    await next()
+}
+
+const page = async function(ctx, next) {
+    
+}
+
+```
