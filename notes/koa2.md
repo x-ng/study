@@ -290,10 +290,10 @@ async function envIncrease() {
     // 等待回调任务结果 2 返回
     let result2 = await increase(result1)
     console.log(`result2 = ${result2}`)
-
+    
     // 等待回调任务结果 3 返回
     let result3 = await increase(result2)
-
+    
     return result3
 }
 
@@ -997,7 +997,7 @@ Promise.resolve(middleware(context, async() => {
 - 从拿到数据处理想要处理的事情
 - 给处理后的结果
 
-### HTTP 生命舟曲
+### HTTP 生命周期
 
 - HTTP请求
   - 路由操作
@@ -1150,3 +1150,452 @@ app.listen(3001, function () {
 })
 
 ```
+
+### context 挂载代理
+
+- 请求代理注入
+  - 直接被app.use
+  - 请求时候才有注入
+  - 每次请求的注入都不同
+- 初始化实例(应用)代理注入
+  - 直接注入到 app.context
+  - 初始化应用的时候才注入
+  - 只注入一次, 每次请求都可以使用
+
+### 请求时挂载代理context
+
+```js
+const Koa = require('koa')
+let app = new Koa()
+
+const middleware = async function (ctx, next) {
+    // 中间件 代理/挂载上下文
+    // 把所有当前服务的进程PID, 内存使用情况方法代理/挂载到ctx 上
+    ctx.getServerInfo = functin () {
+        function parseMem (mem = 0) {
+            let mamVal = mem / 1024 / 1024
+            memVal = memVal.toFixed(2) + 'MB'
+            return memVal
+        }
+
+        function getMemInfo () {
+            let memUsage = process.memoryUsage()
+            let rss = parseMem(memUsage.rss)
+            let heapTotal = parseMem(memUsage.heapTotal)
+            let heapUsed = parseMem(memUsage.heapUsed)
+            return {
+                pid: process.pid,
+                rss,
+                heapTotal,
+                heapUsed
+            }
+        }
+
+        return getMemInfo()
+    }
+
+    await next()
+}
+
+const page = async function (ctx, next) {
+    const serverInfo = ctx.getServerInfo()
+    ctx.body = `
+        <html>
+            <head></head>
+            <body>
+            <p>${JSON.stringify(serverInfo)}</p>
+            </body>
+        </html>
+    `
+}
+
+app.use(middleware)
+app.use(page)
+
+app.listen(3001, function(){
+    console.log('the demo is start at port 3001')
+})
+
+```
+
+### 初始化实例挂载代理 context
+
+```js
+const Koa = require('koa')
+let app = new Koa()
+
+const middleware = function (app) {
+    // 中间件在初始化实例 把getServerInfo方法 挂载代理到上下文
+    app.context.getServerInfo = function () {
+        function parseMem (mem = 0) {
+            let memVal = mem / 1024 / 1024
+            memVal = memVal.toFixed(2) + 'MB'
+            return memVal
+        }
+
+        function getMemInfo () {
+            let memUsage = process.memoryUsage()
+            let rss = parseMem(memUsage.rss)
+            let heapTotal = parseMem(memUsage.heapTotal)
+            let heapUsed = parseMem(memUsage.heapUsed)
+            return {
+                pid: process.pid,
+                rss,
+                heapTotal,
+                heapUsed
+            }
+        }
+        return getMemInfo()
+    }
+}
+
+middleware(app)
+
+const page = async function (ctx, next) {
+    const serverInfo = ctx.getServerInfo()
+    ctx.body = `
+    <html>
+        <head></head>
+        <body>
+            <p>${JSON.stringify(serverInfo)}</p>
+        </body>
+    </html>
+    `
+}
+
+app.use(page)
+
+app.listen(3001, function () {
+    console.log('the demo is start at port 3001')
+})
+
+```
+
+## 广义中间件
+
+### 前言
+
+- 不直接提供中间件
+- 通过间接方式提供了中间件, 最常见的是 间接中间件 和 子中间件
+- 间接被 app.use() 加载
+- 其他方式接入 Koa 切面
+
+### 间接中间件
+
+```js
+const Koa = require('koa')
+let app = new Koa()
+
+function indirectMiddleware (path, middleware) {
+    return async function (ctx, next) {
+        console.log(ctx.path === path, middleware)
+        if (ctx.path === path) {
+            await middleware(ctx, next)
+        } else {
+            await next()
+        }
+    }
+}
+
+const index = async function (ctx, next) {
+    ctx.body = 'this is index page'
+}
+
+const hello = async function (ctx, next) {
+    ctx.body = 'this is hello page'
+}
+
+const world = async function (ctx, next) {
+    ctx.body = 'this is world page'
+}
+
+app.use(indirectMiddleware('/', index))
+app.use(indirectMiddleware('/hello', index))
+app.use(indirectMiddleware('/world', index))
+
+app.listen(3001, () => {
+    console.log('the demo is start at port 3001')
+})
+
+```
+
+### 子中间件
+
+子中间件是广义中间件的一个最优代表场景, 主要的特点是
+
+- 初始化中间件时, 内置子中间件列表
+- 子中间件列表添加子中间件列表
+- 子中间件列表封装成间接中间件, 让后被 app.use() 加载
+
+```js
+const Koa = require('koa')
+let app = new Koa()
+
+class Middleware {
+    constructor () {
+        this.stack = []
+    }
+
+    get (path, childMiddleware) {
+        this.stack.push({path, middleware: childMiddleware})
+    }
+
+    middlewares () {
+        let stack = this.stack
+        return async function (ctx, next) {
+            let path = ctx.path;
+            for (let i = 0; i < stack.length; i++) {
+                const child = stack[i]
+                if (child && child.path === path && child.middleware) {
+                    await child.middleware(ctx, next)
+                }
+            }
+            await next()
+        }
+    }
+}
+
+const middleware = new Middleware()
+middleware.get('/page/001', async(ctx, next) => {ctx.body = 'page 001'})
+middleware.get('/page/002', async(ctx, next) => {ctx.body = 'page 002'})
+middleware.get('/page/003', async(ctx, next) => {ctx.body = 'page 003'})
+
+app.use(middleware,middlewares())
+
+app.listen(3001, function () {
+    console.log('the demo is start at port 3001')
+})
+
+```
+
+# 狭义中间件-请求/响应拦截
+
+## koa-logger 实现
+
+### 前言
+
+狭义中间件, 请求/拦截 最显著的特征是
+
+- 直接被 app.use()
+- 拦截请求
+- 操作响应
+
+最简单的场景是 Koa.js 官方支持传输静态文件中间件的实现 koa-logger
+
+> 本节主要以官方的 koa-logger 中间件为参考, 实现了一个最简单的 koa-logger 实现, 方便原理讲解和后溪二次自定义优化开发.
+
+### 实现步骤
+
+- step 01 拦截请求, 打印请求 URL
+- step 02 操作响应, 打印响应 URL
+
+### 实现源码
+
+    https://github.com/chenshenhai/koajs-design-note/tree/master/demo/chapter-04-01
+
+```js
+// 安装依赖
+npm i
+// 执行 demo
+npm run start
+
+// 最后启动 chrome 浏览器访问
+// http://127.0.0.1:3000/hello
+// http://127.0.0.1:3000/world
+
+```
+
+### 解读
+
+```js
+const logger = async function (ctx, body) {
+    let res = ctx.res
+
+    // 拦截操作请求 request
+    console.log(`<-- ${ctx.method} ${ctx.url}`)
+
+    await next()
+
+    // 拦截操作响应 request
+    res.on('finish', () => {
+        console.log(`--> ${ctx.method} ${ctx.url}`)
+    })
+}
+
+module.exports = logger
+```
+
+### 使用
+
+```js
+const Koa = require('koa')
+const logger = require('./index')
+const app = new Koa()
+
+app.use(logger)
+
+app.use(async(ctx, next) => {
+    ctx.body = 'hello world'
+})
+
+app.listen(3000, () => {
+    console.log('[demo] is starting at port 3000')
+})
+```
+
+## koa-send 实现
+
+### 前言
+
+狭义中间件, 请求/拦截, 最显著的特征是
+
+- 直接被 app.use()
+- 拦截请求
+- 操作响应
+
+最典型的场景是 Koa.js 官方支持传输静态文件中间件的实现 koa-send
+
+主要实现场景流程是
+
+- 拦截请求, 判断该请求是否请求本地静态资源文件
+- 操作响应, 判断返回的静态文件文本内容或出错提示
+
+### 实现步骤
+
+- step 01 配置静资源绝对目录地址
+- step 02 判断是否支持隐藏文件
+- step 03 获取文件或者目录信息
+- step 04 判断是否需要压缩
+- step 05 设置HTTP头信息
+- step 06 静态文件读取
+
+### 源码解读
+
+```js
+const fs = require('fs');
+const path = require('path');
+const {
+  basename,
+  extname
+} = path;
+
+const defaultOpts = {
+  root: '',
+  maxage: 0,
+  immutable: false,
+  extensions: false,
+  hidden: false,
+  brotli: false,
+  gzip: false,
+  setHeaders: () => {}
+};
+
+async function send(ctx, urlPath, opts = defaultOpts) {
+  const { root, hidden, immutable, maxage, brotli, gzip, setHeaders } = opts;
+  let filePath = urlPath;
+
+  // step 01: normalize path
+  // 配置静态资源绝对目录地址
+  try {
+    filePath = decodeURIComponent(filePath);
+    // check legal path
+    if (/[\.]{2,}/ig.test(filePath)) {
+      ctx.throw(403, 'Forbidden');
+    }
+  } catch (err) {
+    ctx.throw(400, 'failed to decode');
+  }
+
+  filePath = path.join(root, urlPath);
+  const fileBasename = basename(filePath);
+
+  // step 02: check hidden file support
+  // 判断是否支持隐藏文件
+  if (hidden !== true && fileBasename.startsWith('.')) {
+    ctx.throw(404, '404 Not Found');
+    return;
+  }
+
+  // step 03: stat
+  // 获取文件或者目录信息
+  let stats; 
+  try { 
+    stats = fs.statSync(filePath);
+    if (stats.isDirectory()) {
+      ctx.throw(404, '404 Not Found');
+    }
+  } catch (err) {
+    const notfound = ['ENOENT', 'ENAMETOOLONG', 'ENOTDIR']
+    if (notfound.includes(err.code)) {
+      ctx.throw(404, '404 Not Found');
+      return;
+    }
+    err.status = 500
+    throw err
+  }
+
+  let encodingExt = '';
+  // step 04 check zip
+  // 判断是否需要压缩
+  if (ctx.acceptsEncodings('br', 'identity') === 'br' && brotli && (fs.existsSync(filePath + '.br'))) {
+    filePath = filePath + '.br';
+    ctx.set('Content-Encoding', 'br');
+    ctx.res.removeHeader('Content-Length');
+    encodingExt = '.br';
+  } else if (ctx.acceptsEncodings('gzip', 'identity') === 'gzip' && gzip && (fs.existsSync(filePath + '.gz'))) {
+    filePath = filePath + '.gz';
+    ctx.set('Content-Encoding', 'gzip');
+    ctx.res.removeHeader('Content-Length');
+    encodingExt = '.gz';
+  }
+
+  // step 05 setHeaders
+  // 设置HTTP头信息
+  if (typeof setHeaders === 'function') {
+    setHeaders(ctx.res, filePath, stats);
+  }
+
+  ctx.set('Content-Length', stats.size);
+  if (!ctx.response.get('Last-Modified')) {
+    ctx.set('Last-Modified', stats.mtime.toUTCString());
+  }
+  if (!ctx.response.get('Cache-Control')) {
+    const directives = ['max-age=' + (maxage / 1000 | 0)];
+    if (immutable) {
+      directives.push('immutable');
+    }
+    ctx.set('Cache-Control', directives.join(','));
+  }
+
+  const ctxType = encodingExt !== '' ? extname(basename(filePath, encodingExt)) : extname(filePath);
+  ctx.type = ctxType;
+
+  // step 06 stream
+  // 静态文件读取
+  ctx.body = fs.createReadStream(filePath);
+}
+
+module.exports = send;
+
+
+```
+
+### koa-send 使用
+
+```js
+const send = require('./index')
+const Koa = require('koa')
+const app = new Koa()
+
+// public/ 为当前项目静态文件目录
+app.use(async ctx => {
+    await send(ctx, ctx.path, {root: `${__dirname}/public`})
+})
+
+app.listen(3000)
+
+console.log('listening on port 3000')
+
+
+```
+

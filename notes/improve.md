@@ -81,6 +81,8 @@ var re = /\w+/
 	
 		micro-task包括：process.nextTick, Promises, Object.observe, MutationObserver
 
+        process.nextTick > setTimeout/setInterval > setImmediate
+
 总结: 
 
 - 不同的任务会放进不同的任务队列之中。

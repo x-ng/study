@@ -35,11 +35,11 @@ computed:{
 
 ### 2.1 定义方式：
 
-####     2.1.1 用 extent 定义
+#### 2.1.1 用 extent 定义
 
 - 使用 vue.extend 定义组件模块
 
-  ```
+  ```js
   var dv = Vue.extend({
               template:'<div>我是一个组件</div>'
    })
@@ -55,15 +55,16 @@ computed:{
 
 - 使用Vue.component定义组件
 
-  ```
+```js
   Vue.component('com',{
-  	template:'
-  	<div>
-  		<p>我是一个组件中的元素</p>
-  		<span>我也是组件中的元素</span>
-  	</div>'
+  template:'
+  <div>
+  <p>我是一个组件中的元素</p>
+  <span>我也是组件中的元素</span>
+  </div>'
   })
-  ```
+
+```
 
 - 使用组件
 
@@ -77,8 +78,8 @@ computed:{
       }) 
 
 - 使用template标签定义模板,并且给template标签添加id
-      undefinedundefined<template id='tmpl'>
 
+      <template id='tmpl'>
           <div>
               <p>我是p元素</p>
               <span>我是span元素</span>
@@ -86,25 +87,26 @@ computed:{
   ​    </template>
 
 - 使用组件
+
       <com></com>
 
 ### 2.2 加载：
 
 #### 2.2.1 局部注册
 
-```
-var mycomponent = new extend({        
+```js
+var mycomponent = new extend({
 <!--Vue.extend()是Vue构造器的扩展，调用Vue.extend()我们将创建一个组件构造器-->
  template:"<div>我是局部注册</>"
 })
 
 new Vue（{
-	el:"#app",
-	components:{                 <!--components是实现局部注册的属性-->
- 		"my-component":mycomponent 
+el:"#app",
+components:{                 <!--components是实现局部注册的属性-->
+"my-component":mycomponent
 }
 
-}） 
+}）
 <!--这样我们组件就能应用在id=app的标签里面，其他地方不能应用,会报错！如果想组件在任何地方都能应用，我们就需要注册全局组件-->
 ```
 
