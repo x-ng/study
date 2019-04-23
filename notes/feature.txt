@@ -11,18 +11,9 @@ java 高级
 	Lambda表达式,字节流,字符流,转换流,高效流,网络编程
 
 --------------------------------------------------------------
-
-前端待改进:
-webpack打包: 
-	npm run dev				运行config下的文件
-	npm run build			打包到build文件夹下
-
 	config文件配置
-
 跨域:
 	nginx 配置
-
-
 
 mock
 vue-route进阶
