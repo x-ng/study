@@ -3,12 +3,21 @@
 ### 数组:
 
 ​	splice 对原数组进行操作
+
 ​	slice  返回一个新的数组
+
+​	join 将数组各项连接起来
+
 ​	forEach 循环遍历数组,没有return
+
 ​	map 映射,有return
+
 ​	filter 过滤,有return
+
 ​	reduce 映射,有return
+
 ​	some 检测,返回布尔值,如果为真,跳出全部训话,如果为假,继续循环
+
 ​	every 返回值是布尔值,如果为真,跳出本次循环继续,如果为假,跳出全部循环
 
 ```
@@ -51,7 +60,7 @@ var re = new RegExp("\\w+")
 var re = /\w+/
 ```
 
-​
+
 
 ## 2 eventloop
 
