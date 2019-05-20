@@ -1,0 +1,37 @@
+// 引入刚刚在第五点建立连接 mysql 数据库的 db.js 文件
+const db = require('../config/db')
+// 引入 Sequelize 对象
+const Sequelize = db.sequelize
+// 引入上一步的文章数据表模型文件
+const Article = Sequelize.import('../schema/article.js')
+// 自动创建表
+Article.sync({force: false})
+
+class ArticleModel {
+    /**
+     * 创建文章模型
+     * @param data
+     * @return {Promise<*>}
+     */
+    static async createArticle (data) {
+        return await Article.create({
+            title: data.title,
+            author: data.author,
+            content: data.content,
+            category: data.category,
+        })
+    }
+
+    /**
+     * 查询去文章详情数据
+     * @param id 文章ID
+     * @return {Promise<Model>}
+     */
+    static async getArticleDetail (id) {
+        return await Article.findOne({
+            where: {id}
+        })
+    }
+}
+
+module.exports = ArticleModel
