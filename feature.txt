@@ -1,11 +1,15 @@
+长期目标：
 redis MongoDB mySql 数据库学习
 Nginx 反向代理配置
 docker 版本控制发布学习	
-nust.js react redux 数据结构 编译原理
-config文件配置
-跨域:
-	nginx 配置
+跨域:nginx 配置
 
+---
+
+短期目标：
+vue 全家桶复习
+webpack 打包配置
+vue 源码了解
 node 全家桶
 
 
