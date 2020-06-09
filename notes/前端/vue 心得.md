@@ -1,4 +1,4 @@
-## ﻿1 计算属性和watch
+## 1 计算属性和watch
 
 - watch 和 computed 的区别：
       watch: 监视一个
@@ -357,4 +357,6 @@ select v-model 绑定的是 option 中的 :value 的值, option 的标签中可�
   </script>
 </body>
 ```
+
+## 7 
 
