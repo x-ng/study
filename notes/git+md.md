@@ -127,7 +127,7 @@
 
 ### 标题
 
-* 无序列表  
+- 无序列表  
 
 1. 有序列表
 
@@ -148,7 +148,10 @@
 
 [链接](www.baidu.com)
 
-- [ ] checkbox 
+![图片]()
+
++ [x] Markdown  
++ [ ] JavaScript 
 
 
 
