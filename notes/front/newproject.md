@@ -2,7 +2,7 @@
 
 ### 封装 http 
 
-config 文件 ?
+config 文件
 
 ```js
 this.config = {
@@ -15,7 +15,3 @@ this.config = {
     responseType: 'text',
 }
 ```    
-
-test001
-
-test02
