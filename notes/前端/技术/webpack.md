@@ -1,4 +1,4 @@
-[学习网站](http://www.imooc.com/article/291219?block_id=tuijian_wz)
+[学习网站](https://github.com/pingan8787/Leo-JavaScript/blob/master/Cute-Webpack/introduction/README.md)
 [weapack四个概念](https://github.com/pingan8787/Leo-JavaScript/blob/master/Cute-Webpack/guide/README.md)
 
 ## 1. 概念
