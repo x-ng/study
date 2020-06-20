@@ -36,7 +36,8 @@
 
 ​	git  push origin <branch>
 
-​	git reset --soft HEAD~1
+<!-- ​	git reset --soft HEAD~1 -->
+git revert HEAD
 
 ​		原理同上:
 
