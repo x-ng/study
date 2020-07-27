@@ -28,7 +28,7 @@
 
 <body>
     <!-- <input type="checkbox" id="add"> -->
-    <div id="demo">
+    <!-- <div id="demo">
         <div class="box">
             <div></div>
             <div></div>
@@ -40,9 +40,26 @@
             <div></div>
             <div></div>
         </div>
-    </div>
+    </div> -->
+    <table>
+        <tr>
+            <th>标题</th>
+        </tr>
+        <tr id="tr" onclick='click()'>
+            <td>11</td>
+        </tr>
+    </table>
+    <button id="vv" onclick="myfunction()" >哈哈</button>
     <script>
-
+        // var dom = document.querySelector('#tr')
+        // console.log(dom);
+        function myfunction() {
+            console.log("object");
+        }
+        document.getElementById('tr').onclick = function () {
+  alert('hasssshhaa ')
+  }
+        
 
     </script>
 </body>
